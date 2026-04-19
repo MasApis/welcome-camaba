@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Home | Informatics 2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Pro-Level Palette - Emerald Dark Theme */
+            --bg-dark: #050b07; 
+            --hmti-green: #10b981; /* Emerald Green yang lebih modern */
+            --hmti-light-green: #34d399; /* Neon mint untuk glow */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(5, 11, 7, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- LAYAR 0: TOMBOL MULAI --- */
+        #start-screen {
+            z-index: 50;
+            text-align: center;
+        }
+
+        .btn-init {
+            background: transparent;
+            border: 2px solid var(--hmti-green);
+            color: var(--hmti-light-green);
+            padding: 16px 40px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.1); }
+            100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
+        }
+
+        .btn-init:hover {
+            background: var(--hmti-green);
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.6);
+            border-color: transparent;
+        }
+
+        /* --- LAYAR 1: TERMINAL --- */
+        #phase1 {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            position: relative;
+            padding: 20px;
+        }
+
+        .terminal-container {
+            font-family: 'Fira Code', monospace;
+            color: var(--hmti-light-green);
+            font-size: 1.1rem;
+            text-align: left;
+            width: 100%;
+            max-width: 600px;
+            line-height: 1.8;
+            text-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background-color: var(--hmti-light-green);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* --- LAYAR 2: EMOSIONAL --- */
+        #phase2 {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top, #0f291e 0%, var(--bg-dark) 80%);
+            position: relative;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content-box {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 650px;
+            padding: 30px 20px;
+            background: var(--glass-bg);
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .logo-container {
+            margin-bottom: 15px;
+            opacity: 0;
+        }
+
+        .logo-container img {
+            width: 100px;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(52, 211, 153, 0.5));
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .narrative {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-quote {
+            font-family: 'Outfit', sans-serif;
+            font-style: italic;
+            color: var(--hmti-light-green);
+            font-weight: 600;
+            margin: 2rem auto;
+            font-size: 1.35rem;
+            border-left: 4px solid var(--hmti-green);
+            padding-left: 20px;
+            text-align: left;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+
+        .bold-text {
+            color: var(--hmti-light-green);
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            text-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
+        }
+
+        .final-msg {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--hmti-green);
+            margin-top: 2rem;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+        }
+
+        /* Animasi Utility */
+        .fade-in { opacity: 0; animation: fadeInAnim 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes fadeInAnim {
+            from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* --- RESPONSIVE MOBILE TWEAKS --- */
+        @media (max-width: 768px) {
+            .terminal-container { font-size: 0.95rem; }
+            .content-box { padding: 20px 15px; border: none; background: transparent; box-shadow: none; }
+            h1 { font-size: 1.8rem; }
+            .narrative { font-size: 0.95rem; line-height: 1.6; }
+            .highlight-quote { font-size: 1.15rem; max-width: 100%; padding-left: 15px; margin: 1.5rem 0; }
+            .logo-container img { width: 85px; }
+            .btn-init { padding: 14px 30px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="start-screen">
+        <button class="btn-init" onclick="startExperience()">Initialize</button>
+    </div>
+
+    <div id="phase1">
+        <div class="terminal-container">
+            <span id="terminal-text"></span><span class="cursor"></span>
+        </div>
+    </div>
+
+    <div id="phase2">
+        <div class="content-box">
+            <div class="logo-container fade-in" style="animation-delay: 0.2s;">
+                <img src="logo-hmti.2-1-3.png" alt="Logo HMTI"> 
+            </div>
+
+            <h1 class="fade-in" style="animation-delay: 0.8s;">Hello World,<br>You've Come So Far.</h1>
+            
+            <div class="narrative fade-in" style="animation-delay: 2s;">
+                Kami tahu betapa sunyinya malam-malam sebelum hari ini. <br>
+                Berjalan dalam ketidakpastian, menjaga sisa harapan, dan bertanya-tanya kapan garis finish itu tiba.
+            </div>
+
+            <div class="highlight-quote fade-in" style="animation-delay: 4s;">
+                "You're on your own, kid.<br>You always have been."
+            </div>
+
+            <div class="narrative fade-in" style="animation-delay: 6.5s;">
+                Tapi detik ini, algoritma itu berakhir. Kamu tidak akan lagi mengeksekusi mimpimu dalam sendirian.<br><br>
+                Selamat datang di <span class="bold-text">Universitas Maritim Raja Ali Haji</span>.<br>
+                Selamat pulang ke rumah barumu, <span class="bold-text">One Informatics Family</span>.
+            </div>
+
+            <div class="final-msg fade-in" style="animation-delay: 8.5s;">
+                > Status: Initialization Success. Welcome Home. 🥺
+            </div>
+        </div>
+    </div>
+
+    <audio id="bg-music">
+        <source src="taylor.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const terminalLines = [
+            "> Initializing system...",
+            "> Menjalankan memori perjuangan SNBP 2026...",
+            "> Melewati malam-malam yang sunyi...",
+            "> Mencari tempat untuk pulang...",
+            "> Status: Keluarga ditemukan.",
+            "> Executing welcome sequence..."
+        ];
+
+        // KONFIGURASI KECEPATAN (Ubah di sini jika ingin lebih cepat/lambat)
+        const typingSpeed = 60; // Kecepatan ngetik per huruf (ms)
+        const lineDelay = 800;  // Jeda jeda sebelum ngetik baris baru (ms)
+
+        async function typeTerminalText() {
+            const container = document.getElementById('terminal-text');
+            for (let i = 0; i < terminalLines.length; i++) {
+                let text = terminalLines[i];
+                for (let j = 0; j < text.length; j++) {
+                    container.innerHTML += text.charAt(j);
+                    await new Promise(r => setTimeout(r, typingSpeed)); 
+                }
+                container.innerHTML += '<br>';
+                await new Promise(r => setTimeout(r, lineDelay)); 
+            }
+        }
+
+        async function startExperience() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('phase1').style.display = 'flex';
+            
+            const audio = document.getElementById('bg-music');
+            audio.volume = 0.8; // Set volume ke 80% agar tidak terlalu mengagetkan
+            audio.play();
+
+            // SINKRONISASI OTOMATIS:
+            // Fungsi ini akan menunggu sampai proses ngetik benar-benar selesai
+            await typeTerminalText(); 
+
+            // Jeda dramatis 1 detik sebelum layar berubah
+            await new Promise(r => setTimeout(r, 1000)); 
+
+            document.getElementById('phase1').style.display = 'none';
+            document.getElementById('phase2').style.display = 'flex';
+            fireConfetti();
+        }
+
+        function fireConfetti() {
+            var duration = 7 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 60,
+                    origin: { x: 0 },
+                    colors: ['#10b981', '#34d399', '#ffffff'] 
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 60,
+                    origin: { x: 1 },
+                    colors: ['#10b981', '#34d399', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+    </script>
+</body>
+</html>
