@@ -160,17 +160,18 @@
             margin-bottom: 1.5rem;
         }
 
-        .highlight-quote {
+       .highlight-quote {
             font-family: 'Outfit', sans-serif;
             font-style: italic;
             color: var(--hmti-light-green);
             font-weight: 600;
-            margin: 2rem auto;
+            margin: 2rem auto; /* 'auto' ini yang mendorongnya ke tengah */
             font-size: 1.35rem;
             border-left: 4px solid var(--hmti-green);
             padding-left: 20px;
-            text-align: left;
-            max-width: 80%;
+            text-align: left; /* Teks tetap rata kiri terhadap garis */
+            width: fit-content; /* INI KUNCINYA: Lebar kotak akan menyesuaikan teks */
+            max-width: 90%;
             line-height: 1.4;
         }
 
@@ -204,7 +205,7 @@
             .content-box { padding: 20px 15px; border: none; background: transparent; box-shadow: none; }
             h1 { font-size: 1.8rem; }
             .narrative { font-size: 0.95rem; line-height: 1.6; }
-            .highlight-quote { font-size: 1.15rem; max-width: 100%; padding-left: 15px; margin: 1.5rem 0; }
+            .highlight-quote { font-size: 1.15rem; max-width: 100%; padding-left: 15px; margin: 1.5rem auto; }
             .logo-container img { width: 85px; }
             .btn-init { padding: 14px 30px; font-size: 1rem; }
         }
