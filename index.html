@@ -47,6 +47,17 @@
             0% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
             100% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.5); }
         }
+
+        .instruction {
+            margin-top: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            opacity: 0.8;
+            animation: fadeInOut 2s infinite ease-in-out;
+        }
+
         .btn-init:hover { background: var(--hmti-green); color: #fff; transform: scale(1.05); }
 
         /* --- SCREEN 1: TERMINAL --- */
@@ -123,6 +134,7 @@
 
     <div id="start-screen">
         <button class="btn-init" onclick="startExperience()">Initialize</button>
+        <div class="instruction">Tekan untuk memulai inisialisasi</div>
     </div>
 
     <div id="phase1">
